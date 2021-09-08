@@ -21,11 +21,12 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller/'
-        tags: ['controller.service_arguments']
-
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Handler\DateHandler:
+        arguments:
+            $dateRanges:
+                - { is_allow_edit: false, priority: 0, start_date: '20.09.2021', end_date: '22.09.2021' }
+                - { is_allow_edit: true, priority: 2, start_date: '10.09.2021', end_date: '26.09.2021' }
+                - { is_allow_edit: false, priority: 3, start_date: '12.09.2021', end_date: '16.09.2021' }
