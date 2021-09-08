@@ -11,3 +11,7 @@
 ###> IDEA ###
 /.idea
 ###< IDEA ###
+
+###> Docker ###
+/db
+###< Docker ###

@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - .:/app
+      - ./docker/php/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ~/.ssh:/root/.ssh
+    working_dir: /app
+    environment:
+      - PHP_IDE_CONFIG=${PHP_DOCKER_IDE_CONFIG}
+
+  webserver:
+    build:
+      context: ./docker/apache
+    ports:
+      - "${WEBSERVER_DOCKER_HOST_PORT}:80"
+    volumes:
+      - .:/app
+      - ./docker/apache/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./docker/apache/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
+    depends_on:
+      - php
